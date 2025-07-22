@@ -1,0 +1,10 @@
+*.spec 
+test.txt
+logs.txt
+Config.py 
+__pycache__ 
+build
+dist
+test.py 
+*.config
+*.cmd

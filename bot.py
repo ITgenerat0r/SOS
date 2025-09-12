@@ -1,9 +1,28 @@
 import telebot
 from telebot import types
+from telebot import apihelper
 from datetime import datetime, timedelta
 import re
 from database import Database
-from config import BOT_TOKEN
+from config import BOT_TOKEN, PROXY_CONFIG
+from includes import *
+
+
+DB_timeout = 2147483
+max_lives = 5000
+max_delay_between_errors = 60
+delay_between_errors = 1
+
+
+# Настройка прокси
+if PROXY_CONFIG['use_proxy']:
+    if PROXY_CONFIG['username'] and PROXY_CONFIG['password']:
+        proxy_url = f"http://{PROXY_CONFIG['username']}:{PROXY_CONFIG['password']}@{PROXY_CONFIG['proxy_url'].split('://')[1]}"
+    else:
+        proxy_url = PROXY_CONFIG['proxy_url']
+    
+    apihelper.proxy = {'https': proxy_url}
+    print(f"Используется прокси: {proxy_url}")
 
 # Инициализация бота и базы данных
 bot = telebot.TeleBot(BOT_TOKEN)
@@ -797,6 +816,44 @@ def handle_all_messages(message):
     
     show_main_menu(message.chat.id)
 
+
+
+live_countdown = max_lives
+
+def start_bot():
+    try:
+        global last_err_time
+        print(yellow_text(get_time()), "Starting...")
+        last_err_time = datetime.datetime.now()
+        global db
+        global DB_timeout
+        # db.set_time_out(DB_timeout)
+        print(yellow_text(get_time()), "Runned.")
+        bot.polling(none_stop=True, timeout=1)
+    except Exception as e:
+        global last_err
+        global delay_between_errors
+        global max_delay_between_errors
+        print(yellow_text(get_time()), "Exception raised.")
+        print(e)
+        if str(e).find(last_err) > -1:
+            if delay_between_errors < max_delay_between_errors:
+                delay_between_errors += 1
+        else:
+            last_err = str(e)[:int(len(str(e))/3)]
+            delay_between_errors = 1
+
+
 if __name__ == '__main__':
-    print("Бот запущен...")
-    bot.polling(none_stop=True)
+    # print("Бот запущен...")
+    # bot.polling(none_stop=True, timeout=1)
+
+    while True:
+        print()
+        print(f"<<<{red_text(str(live_countdown))}>>>")
+        start_bot()
+        if live_countdown < 1:
+            break
+        print(f"Sleep {delay_between_errors}s")
+        sleep(delay_between_errors)
+        live_countdown -= 1

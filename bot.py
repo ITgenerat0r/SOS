@@ -237,6 +237,8 @@ def back_from_contacts(message):
         # Очищаем выбранные контакты
         if 'selected_contacts' in user_data[user_id]:
             del user_data[user_id]['selected_contacts']
+        else:
+            show_main_menu(message.chat.id)
 
 def process_banner_receivers_manual(message):
     user_id = message.from_user.id
@@ -293,8 +295,12 @@ def process_action_password(message):
     
     elif next_action == 'edit_date':
         banner_id = user_data[user_id]['banner_id']
-        if db.update_banner_send_at(banner_id, user_data[user_id]['new_date']):
-            bot.reply_to(message, "Дата отправки успешно обновлена!")
+        new_date = user_data[user_id]['new_date']
+        # Обновляем дату и автоматически активируем сообщение
+        if db.update_banner_send_at(banner_id, new_date):
+            # Автоматически активируем сообщение
+            db.toggle_banner_active(banner_id, True)
+            bot.reply_to(message, "Дата отправки успешно обновлена! Сообщение автоматически активировано.")
         else:
             bot.reply_to(message, "Ошибка обновления даты!")
     

@@ -1,0 +1,6 @@
+start - Start bot
+get_login - Get your ID
+new_pass - Change password
+cancel - Cancel sending
+set_text - Set text for sending
+set_time - Set time for sending

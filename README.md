@@ -11,10 +11,11 @@ Prepare config
 ```terminal
 rename config_template.py config.py
 ```
+Create new Telegram bot via https://t.me/BotFather
 Set your values in the config.
 
 Make database
-```sql
+```terminal
 source ./make_database.sql
 ```
 

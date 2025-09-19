@@ -2,6 +2,7 @@
 If you want to send someone a message in case you can't do it yourself, use this bot. He will deliver your message.
 
 **Install & Run**
+
 Download
 ```terminal
 git clone https://github.com/ITgenerat0r/SOS.git

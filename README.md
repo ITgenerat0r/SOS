@@ -13,7 +13,20 @@ rename config_template.py config.py
 ```
 Set your values in the config.
 
+Make database
+```sql
+source ./make_database.sql
+```
+
 Run bot
 ```terminal
 python3 bot.py 
+```
+
+
+**Some problems and solutions**
+
+ModuleNotFoundError: No module named 'mysql'
+```terminal
+pip install mysql-connector-python
 ```

@@ -14,6 +14,10 @@ max_delay_between_errors = 60
 delay_between_errors = 1
 
 
+
+last_err = ""
+
+
 # Настройка прокси
 if PROXY_CONFIG['use_proxy']:
     if PROXY_CONFIG['username'] and PROXY_CONFIG['password']:

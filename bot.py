@@ -137,7 +137,7 @@ def process_banner_date(message):
     try:
         # Парсим дату
         date_str = message.text
-        send_at = datetime.strptime(date_str, "%d.%m.%Y %H:%M")
+        send_at = datetime.datetime.strptime(date_str, "%d.%m.%Y %H:%M")
         
         if send_at <= datetime.now():
             msg = bot.reply_to(message, "Дата должна быть в будущем. Попробуйте еще раз:")
@@ -576,7 +576,7 @@ def process_edit_date_input(message):
     user_id = message.from_user.id
     try:
         date_str = message.text
-        new_date = datetime.strptime(date_str, "%d.%m.%Y %H:%M")
+        new_date = datetime.datetime.strptime(date_str, "%d.%m.%Y %H:%M")
         
         if new_date <= datetime.now():
             msg = bot.reply_to(message, "Дата должна быть в будущем. Попробуйте еще раз:")

@@ -139,7 +139,7 @@ def process_banner_date(message):
         date_str = message.text
         send_at = datetime.datetime.strptime(date_str, "%d.%m.%Y %H:%M")
         
-        if send_at <= datetime.now():
+        if send_at <= datetime.datetime.now():
             msg = bot.reply_to(message, "Дата должна быть в будущем. Попробуйте еще раз:")
             bot.register_next_step_handler(msg, process_banner_date)
             return
@@ -578,7 +578,7 @@ def process_edit_date_input(message):
         date_str = message.text
         new_date = datetime.datetime.strptime(date_str, "%d.%m.%Y %H:%M")
         
-        if new_date <= datetime.now():
+        if new_date <= datetime.datetime.now():
             msg = bot.reply_to(message, "Дата должна быть в будущем. Попробуйте еще раз:")
             bot.register_next_step_handler(msg, process_edit_date_input)
             return
